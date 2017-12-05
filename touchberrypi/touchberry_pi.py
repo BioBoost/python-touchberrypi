@@ -13,11 +13,11 @@ class TouchberryPi(object):
         self.key_change_callback = None
 
         self.touch = TouchSensor(self.i2c_bus)
-        self.temperature_sensor = TemperatureSensor()
+        self.temperature_sensor = TemperatureSensor(self.i2c_bus)
         self.leds = Leds()
 
-    def get_temperature(self):
-        return self.temperature_sensor.get_temperature()
+    def temperature(self):
+        return self.temperature_sensor.temperature()
 
     def set_all_leds(self, color):
         self.leds.set_all(color)
