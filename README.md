@@ -4,7 +4,7 @@ Python library for the Touchberry Pi shield for the Raspberry Pi
 ## Install SmBus python package
 
 ```shell
-sudo apt-get update && sudo apt-get install python-smbus
+sudo apt-get update && sudo apt-get install python3-smbus
 ```
 
 ## Some info on SmBus methods
