@@ -1,15 +1,25 @@
-import touchberrypi 
+from touchberry_pi.touchberry_pi import TouchberryPi
 
-def on_key_up(key):
-    print("Key {} pressed".format(key))
+# def on_key_up(key):
+#     print("Key {} pressed".format(key))
+#
+#
+# touchberrypi.attach(on_key_up)
+#
+# print(touchberrypi.get_temperature())
+#
+# touchberrypi.set_all_leds("blue")
+#
+# touchberrypi.set_led(5, "red")
 
 
-touchberrypi.attach(on_key_up)
+shield = TouchberryPi()
 
-print(touchberrypi.get_temperature())
+print("Temperature = " + str(shield.get_temperature()))
 
-touchberrypi.set_all_leds("blue")
+def key_change_handler(key, state):
+    print("Key {} changed state to {}".format(key, state))
 
-touchberrypi.set_led(5, "red")
+shield.on_key_change(key_change_handler)
 
-
+print("Touch chip id = " + str(shield.get_touch().chip_id()))
