@@ -1,7 +1,7 @@
 import smbus
-from leds import Leds
-from temperature_sensor import TemperatureSensor
-from touch_sensor import TouchSensor
+from .leds import Leds
+from .temperature_sensor import TemperatureSensor
+from .touch_sensor import TouchSensor
 
 class TouchberryPi(object):
 
