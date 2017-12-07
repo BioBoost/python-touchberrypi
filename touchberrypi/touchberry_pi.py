@@ -5,6 +5,7 @@ from .touch_sensor import TouchSensor
 from .accelerometer import Accelerometer
 
 class TouchberryPi(object):
+    I2C_ADDRESS_ACCELEROMETER = 0x1C
 
     def __init__(self):
         self.i2c_bus = smbus.SMBus(1)
@@ -16,7 +17,7 @@ class TouchberryPi(object):
         self.touch = TouchSensor(self.i2c_bus)
         self.temperature_sensor = TemperatureSensor(self.i2c_bus)
         self.leds = Leds(self.i2c_bus)
-        self.accelerometer = Accelerometer(self.i2c_bus)
+        self.accelerometer = Accelerometer(self.i2c_bus, TouchberryPi.I2C_ADDRESS_ACCELEROMETER)
 
     def temperature(self):
         return self.temperature_sensor.temperature()
