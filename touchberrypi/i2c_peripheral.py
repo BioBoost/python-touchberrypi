@@ -1,4 +1,6 @@
 class I2cPeripheral(object):
+    MAX_SMB_BLOCK_SIZE = 32
+
     def __init__(self, i2c_bus, slave_address):
         self.i2c_bus = i2c_bus
         self.slave_address = slave_address
@@ -15,6 +17,14 @@ class I2cPeripheral(object):
 
     def write_register(self, register, value):
         self.i2c_bus.write_byte_data(self.slave_address, register, value)
+
+    def read_block(self, start_register, length):
+        if length > I2cPeripheral.MAX_SMB_BLOCK_SIZE:
+            raise AttributeError("Length is to large, max " + I2cPeripheral.MAX_SMB_BLOCK_SIZE)
+
+        # This just reads 32 bytes - go figure
+        values = self.i2c_bus.read_i2c_block_data(self.slave_address, start_register)
+        return values[0:length]
 
     def self_check(self):
         """Read value from peripheral register and checks against known value"""
