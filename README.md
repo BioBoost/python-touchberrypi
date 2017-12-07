@@ -1,8 +1,8 @@
 # TouchberryPi Python Package
 
-Python library for the Touchberry Pi shield for the Raspberry Pi 3
+Python library for the Touchberry Pi shield v2 for the Raspberry Pi 3
 
-![Touchberry Pi shield for the Raspberry Pi 3](https://s3.amazonaws.com/CircuitMaker-prod/ProjectMetadata/AAB19FF6-81CA-4614-ADDC-7B1DBF5128AE/Images/654a35b6-3e52-4218-94bd-30ff5e346a1cView)
+![Touchberry Pi shield v1 for the Raspberry Pi 3](img/touchberrypi_shield_v1.png)
 
 ## Install SmBus python package
 
