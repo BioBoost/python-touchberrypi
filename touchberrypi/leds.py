@@ -1,8 +1,8 @@
 from .color import Color
 from time import sleep
+from .i2c_peripheral import I2cPeripheral
 
-class Leds(object):
-    I2C_ADDRESS = 0x60
+class Leds(I2cPeripheral):
     DEF_ALL_CALL_ADDR = 0xD0
 
     REG_MODE_1 = 0x00
@@ -12,9 +12,8 @@ class Leds(object):
 
     NUMBER_OF_RGB_LEDS = 5
 
-    def __init__(self, i2c_bus):
-        self.i2c_bus = i2c_bus
-        self.self_check()
+    def __init__(self, i2c_bus, slave_address):
+        super().__init__(i2c_bus, slave_address)
         self.configure_for_pwn()
         self.enable()
         self.all_off()
@@ -26,31 +25,32 @@ class Leds(object):
         register = Leds.REG_LED_0
         register = self.get_auto_increment_reg_address(register)
         values = color.values() * Leds.NUMBER_OF_RGB_LEDS
-        self.i2c_bus.write_i2c_block_data(Leds.I2C_ADDRESS, register, values)
+        self.write_block(register, values)
 
     def set_led(self, index, color):
         register = Leds.REG_LED_0 + (index * 3)
         register = self.get_auto_increment_reg_address(register)
-        self.i2c_bus.write_i2c_block_data(Leds.I2C_ADDRESS, register, color.values())
+        self.write_block(register, color.values())
 
     def configure_for_pwn(self):
         register = self.get_auto_increment_reg_address(Leds.REG_LEDOUT0)
         values = [0xAA] * 4
-        self.i2c_bus.write_i2c_block_data(Leds.I2C_ADDRESS, register, values)
+        self.write_block(register, values)
 
     def enable(self):
-        mode = self.i2c_bus.read_byte_data(Leds.I2C_ADDRESS, Leds.REG_MODE_1)
+        mode = self.read_register(Leds.REG_MODE_1)
         mode &= (~0x01 << 4);
-        self.i2c_bus.write_byte_data(Leds.I2C_ADDRESS, Leds.REG_MODE_1, mode)
+        self.write_register(Leds.REG_MODE_1, mode)
 
     def all_call_address(self):
-        return self.i2c_bus.read_byte_data(Leds.I2C_ADDRESS, Leds.REG_ALLCALL)
+        return self.read_register(Leds.REG_ALLCALL)
 
     def get_auto_increment_reg_address(self, register):
         return register | (0x01 << 7)
 
-    # I know not the best idea but i need a way to self check
     def self_check(self):
+        """Read value from peripheral register and checks against known value"""
+        # I know not the best idea but i need a way to self check
         if self.all_call_address() != Leds.DEF_ALL_CALL_ADDR:
             print("Failed to talk to TLC59116 Led Driver")
         else:
