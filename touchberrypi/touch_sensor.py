@@ -6,6 +6,7 @@ class TouchSensor(I2cPeripheral):
     REG_KEY_STATE = 3
     REG_CALIBRATE = 56
     REG_RESET = 57
+    NUMBER_OF_KEYS = 7
 
     def __init__(self, i2c_bus, slave_address):
         super().__init__(i2c_bus, slave_address)

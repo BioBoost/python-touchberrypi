@@ -21,3 +21,8 @@ class Color(object):
         return "{R = " + str(self.red)   \
             + ", G = " + str(self.green)   \
             + ", B = " + str(self.blue) + "}"
+
+class Colors(object):
+    RED = Color(255, 0, 0)
+    GREEN = Color(0, 255, 0)
+    BLUE = Color(0, 0, 255)

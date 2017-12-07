@@ -1,6 +1,14 @@
 from .color import Color
 from time import sleep
 from .i2c_peripheral import I2cPeripheral
+from enum import Enum
+
+class Led(Enum):
+    LED1 = 0
+    LED2 = 1
+    LED3 = 2
+    LED4 = 3
+    LED5 = 4
 
 class Leds(I2cPeripheral):
     DEF_ALL_CALL_ADDR = 0xD0
@@ -27,8 +35,8 @@ class Leds(I2cPeripheral):
         values = color.values() * Leds.NUMBER_OF_RGB_LEDS
         self.write_block(register, values)
 
-    def set_led(self, index, color):
-        register = Leds.REG_LED_0 + (index * 3)
+    def set_led(self, led, color):
+        register = Leds.REG_LED_0 + (led.value * 3)
         register = self.get_auto_increment_reg_address(register)
         self.write_block(register, color.values())
 
