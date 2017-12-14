@@ -36,7 +36,8 @@ class Leds(I2cPeripheral):
         self.write_block(register, values)
 
     def set_led(self, led, color):
-        register = Leds.REG_LED_0 + (led.value * 3)
+        ledIndex = led.value if isinstance(led, Enum) else led
+        register = Leds.REG_LED_0 + (ledIndex * 3)
         register = self.get_auto_increment_reg_address(register)
         self.write_block(register, color.values())
 
