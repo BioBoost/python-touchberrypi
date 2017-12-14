@@ -80,8 +80,9 @@ class TouchberryPi(object):
 
     def trigger_change_callbacks(self, keyStates):
         for state in keyStates:
-            if state['changed'] and self.key_change_callback != None:
-                self.key_change_callback(state['key'], state['state'])
+            if state['changed']:
+                if self.key_change_callback != None:
+                    self.key_change_callback(state['key'], state['state'])
                 if state['state'] == KeyState.PRESSED and self.key_down_callback != None:
                     self.key_down_callback(state['key'])
                 elif state['state'] == KeyState.RELEASED and self.key_up_callback != None:
